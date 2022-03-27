@@ -4,9 +4,9 @@ from sys import argv
 from pathlib import Path
 
 
-def convert_image_to_xpm(srcPath: str) -> str:
-	if os.path.isfile(srcPath):
-		newImage = os.path.dirname(srcPath) + "/" + Path(srcPath).stem + ".xpm"
+def convert_image_to_xpm(srcPath: str, destPath: str) -> str:
+	if os.path.isfile(srcPath) and os.path.isdir(destPath):
+		newImage = f'{destPath}{"/" if destPath[len(destPath) - 1] != "/" else ""}{Path(srcPath).stem}.xpm'
 		with Image(filename=srcPath) as img:
 			img.format = 'xpm'
 			img.save(filename=newImage)

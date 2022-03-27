@@ -16,11 +16,8 @@ def resize_to(srcPath: str, destPath: str, listPixels: list, extension='.png') -
             resizeImage.save(pathFile)
             pathToFiles.append(pathFile)
 
-        print("Complete: resize")
-    else:
-        print("Error: path or file")
-
     return pathToFiles
+
 
 def main():
     pixelsImage = [64, 32, 16, 8]
