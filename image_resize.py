@@ -4,17 +4,32 @@ from sys import argv
 from pathlib import Path
 
 
-def resize_to(srcPath: str, destPath: str, listPixels: list, extension='.png') -> list:
+def get_slash(string: str) -> str:
+    if string[len(string) - 1] != '/':
+        return '/'
+    else:
+        return ''
+
+
+def resize_to(pathToFile: str, pathToDirResult: str, listPixels: list) -> list:
     pathToFiles = []
 
-    if (os.path.isfile(srcPath) or os.path.basename(srcPath).find(extension)) and os.path.isdir(destPath):
-        img = Image.open(srcPath)
+    if os.path.isfile(pathToFile) and os.path.isdir(pathToDirResult):
+        img = Image.open(pathToFile)
 
         for pixel in listPixels:
             resizeImage = img.resize((pixel, pixel), Image.ANTIALIAS)
-            pathFile = f'{destPath}{"/" if destPath[len(destPath) - 1] != "/" else ""}{Path(srcPath).stem}_{str(pixel)}{extension}'
-            resizeImage.save(pathFile)
-            pathToFiles.append(pathFile)
+
+            nameFile = Path(pathToFile).stem
+            pathResultFile = pathToDirResult + get_slash(pathToDirResult) + nameFile + '/'
+
+            if not os.path.exists(pathResultFile):
+                os.mkdir(pathResultFile)
+
+            pathResultFile += get_slash(pathResultFile) + nameFile + '_' + str(pixel) + Path(pathToFile).suffix
+
+            resizeImage.save(pathResultFile)
+            pathToFiles.append(pathResultFile)
 
     return pathToFiles
 

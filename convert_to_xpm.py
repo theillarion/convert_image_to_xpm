@@ -14,11 +14,31 @@ def convert_image_to_xpm(srcPath: str, destPath: str) -> str:
 	return str()
 
 
+def get_all_file_dir(dir: str) -> list:
+	result = []
+
+	if os.path.isdir(dir):
+		for root, dirs, files in os.walk(dir):
+			for filename in files:
+				result.append(root + filename)
+
+	return result
+
+
+
 def main():
-	if len(argv) == 2:
-		convert_image_to_xpm(argv[1])
-	else:
-		print("Error: invalid args")
+	srcImage = '/home/illarion/test_image/result_png/Dirt/'
+	dstImage = '/home/illarion/test_image/result_xpm/'
+
+	if not os.path.exists(dstImage):
+		os.mkdir(dstImage)
+
+	allFiles = get_all_file_dir(srcImage)
+
+	for file in allFiles:
+		convert_image_to_xpm(file, dstImage)
+
+	print("Complete: all")
 
 
 if __name__ == '__main__':
